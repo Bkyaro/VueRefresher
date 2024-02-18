@@ -6,14 +6,20 @@
         <form @submit.prevent="addSkill">        
           <!-- v-model 创建输入元素的双向绑定 / v-validate 表单验证(调库) -->
           <input type="text" placeholder="Enter your skill..." v-model="skill" v-validate="'min:5'" name="skill">
-          <p class="alert" v-if="errors.has('skill')">{{ errors.first('skill') }}</p>
+
+          <transition name="alert-in" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
+            <p class="alert" v-if="errors.has('skill')">{{ errors.first('skill') }}</p>
+          </transition>
         </form>
 
         <ul>
-          <!-- 循环 -->
-          <li v-for="(data, index) in skills" :key="index">
-            {{ data.skill }}
-          </li>
+          <TransitionGroup name="list" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
+            <!-- 循环 -->
+            <li v-for="(data, index) in skills" :key="index">
+              {{ data.skill }}
+              <i class="fa fa-minus-circle" v-on:click="remove(index)"></i>
+            </li>
+          </TransitionGroup>
         </ul>
 
         <p>These are the skills that you possess.</p>
@@ -44,6 +50,9 @@ export default {
           console.log("Not valid")
         }
       })
+    },
+    remove(id) {
+      this.skills.splice(id, 1)
     }
   }
 
@@ -51,6 +60,9 @@ export default {
 </script>
 
 <style scoped>
+@import 'https://cdn.jsdelivr.net/npm/animate.css@3.5.1';
+@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+
 .holder {
   background: #fff;
 }
@@ -95,6 +107,34 @@ input {
   display: inline-block;
   padding: 5px;
   margin-top: -20px;
+}
+
+.alert-in-enter-active {
+  animation: bounce-in .3s
+}
+
+.alert-in-leave-active {
+  animation: bounce-in .3s reverse
+}
+
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+i {
+  float: right;
+  cursor: pointer;
 }
 </style>
   
