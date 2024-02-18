@@ -4,20 +4,27 @@
     
     {{ btnState ? 'This button is disabled!' : 'This button is active~' }}
 
+    <!-- 点击事件 / 属性绑定 -->
     <button v-on:click="changeName" v-bind:disabled="btnState">Change Name</button>
     <div class="holder">
+
       <ul>
+        <!-- 循环 -->
         <li v-for="(data, index) in skills" :key="index">
           {{ index }}. {{ data.skill }}
         </li>
       </ul>
 
+      <!-- 条件判断 -->
       <p v-if="skills.length > 1"> Your skills is greater than 1 :D</p>
       <p v-else> you got one skill only? :(</p>
 
       <!-- 只有在showAlert为true时 才会有alert类,两种写法-->
       <div v-bind:class="{ alert: showAlert, 'another-class': showClass }">v-bind:class 方式一</div>
       <div v-bind:class="alertObject">v-bind:class 方式二</div>
+
+      <!-- 绑定样式(驼峰键) -->
+      <div v-bind:style="{ backgroundColor: bgColor, height: bgHeight, width: bgWidth }">v-bind:style</div>
     </div>
   </div>
 </template>
@@ -38,7 +45,11 @@ export default {
       alertObject: {
         alert: true,
         'another-class': true
-      }
+      },
+      bgColor: 'yellow',
+      bgHeight: '30px',
+      bgWidth: '100%',
+
     }
   }
 }
