@@ -15,15 +15,16 @@
       <p v-if="skills.length > 1"> Your skills is greater than 1 :D</p>
       <p v-else> you got one skill only? :(</p>
 
-      <!-- 只有在showAlert为true时 才会有alert类 -->
-      <div v-bind:class="{ alert: showAlert }"></div>
+      <!-- 只有在showAlert为true时 才会有alert类,两种写法-->
+      <div v-bind:class="{ alert: showAlert, 'another-class': showClass }">v-bind:class 方式一</div>
+      <div v-bind:class="alertObject">v-bind:class 方式二</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Skills",
+  name: "SkillsSection",
   data() {
     return {
       name: 'Refresher',
@@ -31,7 +32,13 @@ export default {
       skills: [
         { "skill": "Vue" },
         { "skill": "Three" },
-      ]
+      ],
+      showClass: true,
+      showAlert: true,
+      alertObject: {
+        alert: true,
+        'another-class': true
+      }
     }
   }
 }
@@ -40,24 +47,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- <style src="./skills.css" scoped></style> -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
 .hello {
   width: 100vw;
   height: 100vh;
@@ -65,5 +54,15 @@ a {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.alert {
+  background-color: yellow;
+  width: 100%;
+  height: 30px
+}
+
+.another-class {
+  border: 2px solid black
 }
 </style>
