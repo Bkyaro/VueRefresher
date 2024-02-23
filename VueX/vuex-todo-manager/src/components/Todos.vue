@@ -1,8 +1,19 @@
 <template>
   <div>
     <h1>Todos</h1>
+    <div class="legend">
+      <span>双击标记完成</span>
+      <span> <span class="incomplete-box"></span> = 未完成 </span>
+      <span> <span class="complete-box"></span> = 完成 </span>
+    </div>
     <div class="todos">
-      <div class="todo" v-for="todo in allTodos" :key="todo.id">
+      <div
+        @dblclick="onDblClick(todo)"
+        class="todo"
+        v-for="todo in allTodos"
+        :key="todo.id"
+        :class="{ 'is-complete': todo.completed }"
+      >
         {{ todo.title }}
         <i @click="deleteTodo(todo.id)" class="fas fa-trash-alt"></i>
       </div>
@@ -16,7 +27,16 @@ export default {
   name: "Todos",
   computed: mapGetters(["allTodos"]),
   methods: {
-    ...mapActions(["fetchTodos", "deleteTodo"]),
+    ...mapActions(["fetchTodos", "deleteTodo", "updateTodo"]),
+    onDblClick(todo) {
+      const updTodo = {
+        id: todo.id,
+        title: todo.title,
+        completed: !todo.completed,
+      };
+
+      this.updateTodo(updTodo);
+    },
   },
   created() {
     this.fetchTodos();
